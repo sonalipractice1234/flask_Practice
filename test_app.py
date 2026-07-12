@@ -27,9 +27,9 @@ def client():
         })
     yield client
 
-    # Teardown: drop DB after test
+    # Teardown: clear test data without dropping the whole database
     with app.app_context():
-        mongo.cx.drop_database("test_student_db")
+        mongo.db.students.delete_many({})
 
 
 def test_home_page(client):

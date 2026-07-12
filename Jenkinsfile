@@ -14,7 +14,8 @@ pipeline {
                 sh '''
                 set -e
                 export DEBIAN_FRONTEND=noninteractive
-                if [ ! -d venv ]; then
+                if [ ! -f venv/bin/activate ]; then
+                    rm -rf venv
                     if command -v sudo >/dev/null 2>&1 && sudo -n true >/dev/null 2>&1; then
                         sudo -n apt-get update
                         sudo -n apt-get install -y python3-venv python3-pip
@@ -38,8 +39,9 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
+                set -e
                 . venv/bin/activate
-                pytest
+                python -m pytest
                 '''
             }
         }
