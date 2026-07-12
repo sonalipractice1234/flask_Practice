@@ -1,3 +1,11 @@
+import os
+import sys
+
+if sys.prefix == sys.base_prefix:
+    venv_python = os.path.join(os.path.dirname(__file__), "venv", "Scripts", "python.exe")
+    if os.path.exists(venv_python):
+        os.execvp(venv_python, [venv_python] + sys.argv)
+
 import pytest
 from app import app, mongo
 from bson.objectid import ObjectId
